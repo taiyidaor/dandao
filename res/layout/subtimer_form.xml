@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@color/colorGray"
+    android:layout_marginBottom="8dp"
+    android:gravity="center_vertical">
+
+    <EditText
+        android:id="@+id/subtimer_name_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:hint="@string/subtimer_name"
+        android:inputType="text"
+        android:layout_marginRight="8dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginRight="8dp">
+
+        <EditText
+            android:id="@+id/subtimer_minutes_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/minutes"
+            android:inputType="number"
+            android:maxLength="2"
+            android:layout_marginRight="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textSize="16sp"
+            android:textColor="@color/colorText" />
+
+        <EditText
+            android:id="@+id/subtimer_seconds_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/seconds"
+            android:inputType="number"
+            android:maxLength="2"
+            android:layout_marginLeft="4dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/remove_subtimer_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDanger"
+        android:text="×"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:minWidth="36dp"
+        android:minHeight="36dp" />
+
+</LinearLayout>
