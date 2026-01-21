@@ -54,16 +54,31 @@ workflows:
               script: |
                   # 构建Debug版本APK
                   echo "开始构建Debug APK..."
-                  ./gradlew assembleDebug || {
-                      echo "构建失败，尝试使用替代命令..."
-                      # 尝试使用gradle命令（如果gradlew失败）
+                  
+                  # 首先检查gradlew是否存在
+                  if [ -f "./gradlew" ]; then
+                      echo "使用gradlew构建..."
+                      chmod +x ./gradlew
+                      ./gradlew assembleDebug || build_failed=true
+                  else
+                      echo "gradlew不存在，尝试使用系统gradle..."
+                      build_failed=true
+                  fi
+                  
+                  # 如果gradlew失败或不存在，尝试使用系统gradle
+                  if [ "$build_failed" = true ]; then
+                      echo "尝试使用系统gradle..."
                       if command -v gradle &> /dev/null; then
-                          gradle assembleDebug
+                          echo "找到系统gradle，正在使用..."
+                          gradle assembleDebug || {
+                              echo "错误：gradle构建也失败了"
+                              exit 1
+                          }
                       else
                           echo "错误：无法找到gradle命令"
                           exit 1
                       fi
-                  }
+                  fi
                   
                   # 检查构建结果
                   echo "构建完成，检查输出文件..."
