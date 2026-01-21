@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".TimerDetailActivity">
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/back"
+        android:textColor="@color/colorWhite"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp" />
+
+    <TextView
+        android:id="@+id/timer_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/back_button"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorText" />
+
+    <!-- 环形进度条区域 -->
+    <RelativeLayout
+        android:id="@+id/progress_ring_container"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/timer_name_text"
+        android:layout_marginTop="24dp">
+
+        <!-- 这里将通过代码绘制环形进度条 -->
+        <View
+            android:id="@+id/progress_ring"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 中心时间显示 -->
+        <TextView
+            android:id="@+id/time_display_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:id="@+id/current_subtimer_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time_display_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextSecondary" />
+    </RelativeLayout>
+
+    <!-- 控制按钮区域 -->
+    <RelativeLayout
+        android:id="@+id/control_buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progress_ring_container"
+        android:layout_marginTop="24dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/reset_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_toLeftOf="@+id/start_button"
+            android:layout_marginRight="24dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/reset"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/start_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorSecondary"
+            android:text="@string/start"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/pause_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@+id/start_button"
+            android:layout_marginLeft="24dp"
+            android:background="@color/colorWarning"
+            android:text="@string/pause"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <!-- 子计时器列表 -->
+    <ListView
+        android:id="@+id/subtimers_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/control_buttons_container"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:divider="@null"
+        android:dividerHeight="8dp" />
+
+</RelativeLayout>
