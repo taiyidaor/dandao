@@ -29,8 +29,8 @@ workflows:
                       echo "找到gradlew文件"
                       chmod +x ./gradlew
                   else
-                      echo "错误：未找到gradlew文件"
-                      exit 1
+                      echo "警告：未找到gradlew文件，尝试使用系统gradle..."
+                      # 不退出，继续尝试使用系统gradle
                   fi
                   
                   # 打印Java版本
