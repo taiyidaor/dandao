@@ -1,0 +1,89 @@
+# Codemagic Android 构建配置文件
+# 访问 https://docs.codemagic.io/yaml/yaml-reference/ 了解更多详情
+
+workflows:
+    android-workflow:
+        name: Android Workflow
+        max_build_duration: 60
+        # 移除instance_type字段，让Codemagic自动选择可用的实例类型
+        environment:
+            # 环境变量组（当前未使用）
+            # groups:
+            #     - android_credentials
+            vars:
+                # 您可以在此定义自定义环境变量
+                GRADLE_BUILD_FILE: "./build.gradle"
+                PACKAGE_NAME: "com.example.timerapp"  # 替换为您的应用包名
+            android_signing:
+                # 如需要签名APK，请取消注释并配置
+                # - keystore_reference: your_keystore_reference
+        scripts:
+            - name: 设置构建环境
+              script: |
+                  # 打印工作目录
+                  pwd
+                  ls -la
+                  
+                  # 检查Gradle包装器是否存在
+                  if [ -f "./gradlew" ]; then
+                      echo "找到gradlew文件"
+                      chmod +x ./gradlew
+                  else
+                      echo "警告：未找到gradlew文件，尝试使用系统gradle..."
+                      # 不退出，继续尝试使用系统gradle
+                  fi
+                  
+                  # 打印Java版本
+                  if command -v java &> /dev/null; then
+                      java -version
+                  else
+                      echo "错误：未找到Java"
+                      exit 1
+                  fi
+                  
+                  # 打印Android SDK位置
+                  echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+                  
+                  # 确保依赖项更新
+                  echo "正在更新依赖项..."
+                  ./gradlew dependencies --refresh-dependencies || {
+                      echo "依赖项更新失败，但继续构建"
+                  }
+                  
+            - name: 构建Debug APK
+              script: |
+                  # 构建Debug版本APK
+                  echo "开始构建Debug APK..."
+                  ./gradlew assembleDebug || {
+                      echo "构建失败，尝试使用替代命令..."
+                      # 尝试使用gradle命令（如果gradlew失败）
+                      if command -v gradle &> /dev/null; then
+                          gradle assembleDebug
+                      else
+                          echo "错误：无法找到gradle命令"
+                          exit 1
+                      fi
+                  }
+                  
+                  # 检查构建结果
+                  echo "构建完成，检查输出文件..."
+                  find . -name "*.apk" | grep -i debug
+                  
+            - name: 构建Release APK (可选)
+              script: |
+                  # 构建Release版本APK（如果需要）
+                  # ./gradlew assembleRelease
+        artifacts:
+            - build/outputs/apk/**/*.apk
+        publishing:
+            # 配置发布选项
+            email:
+                recipients:
+                    - user@example.com  # 替换为您的邮箱地址
+                notify:
+                    success: true
+                    failure: true
+            # 可以添加其他发布目标，如Google Play、Firebase等
+            # google_play:
+            #     credentials: $GCLOUD_SERVICE_ACCOUNT
+            #     track: internal
